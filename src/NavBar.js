@@ -10,28 +10,28 @@ const NavBar = (props) => {
     <div>
       <Nav pills>
         <NavItem>
-          <NavLink href="#" active>Link</NavLink>
+          <NavLink href="https://github.com/pcm-dpc/COVID-19" active>Dati PCM</NavLink>
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle nav caret>
-            Dropdown
+            Località
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Header</DropdownItem>
-            <DropdownItem disabled>Action</DropdownItem>
-            <DropdownItem>Another Action</DropdownItem>
+            <DropdownItem header>Seleziona Città</DropdownItem>
+            <DropdownItem disabled>Emilia Romagna</DropdownItem>
+            <DropdownItem>Rimini</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Another Action</DropdownItem>
+            <DropdownItem>Bergamo</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <NavItem>
-          <NavLink href="#">Link</NavLink>
+          <NavLink href="https://aqicn.org/city/italy/emilia-romagna/san-clemente/">PM10</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="#">Another Link</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink disabled href="#">Disabled Link</NavLink>
+          <NavLink disabled href="#"> Link solo per gente incazzata</NavLink>
         </NavItem>
       </Nav>
     </div>

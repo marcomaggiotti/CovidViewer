@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, Component } from 'react'
-import Slides from './Slides'
+import React, { Component } from 'react'
+import Patients from './Patients'
 import NewPatient from './NewPatient'
 import ActualSlide from './ActualSlide'
 import SearchComponent from './SearchComponent';
@@ -14,53 +14,56 @@ import './App.css'
 import { Container, Row, Col } from 'reactstrap';
 
 import '../node_modules/react-vis/dist/style.css';
-import {XYPlot, LineSeries} from 'react-vis';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
 
 const Home = () => {
 
 const [value, setValue] = React.useState('');
 
-var newPost;
-let newPosto = [];
-const dispatch = useDispatch();
-const firebaseData = firebase.database().ref('/');
+let newPost;
+const firebaseData = firebase.database()
 
-const data0 = useSelector( state => state.slideReducer.data );
+const riminiRef = firebaseData.ref('/99/');
+const bergamoRef = firebaseData.ref('/83/');
+
+const dispatch = useDispatch();
+
+
+const data = useSelector( state => state.slideReducer.data );
+
+var dataDim =[]
+var dataBG =[]
 
 function selectSlide()
 {
 
-  dispatch({ type: "CHART"})
+  var i = 0;
+  var promise = riminiRef.on('child_added',function(snapshot, prevChildKey) {
 
+    newPost = snapshot.val();
+    dataDim[i] = { x: new Date(newPost.x) , y: newPost.y };
+    i = i + 1;
+
+  });
+
+  var i = 0;
+
+  var promise = bergamoRef.on('child_added',function(snapshot, prevChildKey) {
+
+    newPost = snapshot.val();
+    dataBG[i] = { x: new Date(newPost.x) , y: newPost.y };
+    i = i + 1;
+
+  });
+
+  dispatch({ type: "CHART", dataRN: dataDim, dataBG: dataBG});
 }
-
-     /*
-   var x = 0;
-   var y = 0;
-
-   for(var i = 0; i < data.length; i++)
-   {
-     x = data[i].x;
-     y = data[i].y;
-
-    firebase.database().ref('/').push({
-          x, y
-      }).then((data)=>{
-          //success callback
-          console.log('data ' , data)
-      }).catch((error)=>{
-          //error callback
-          console.log('error ' , error)
-      })
-   }*/
-
 
   return (
 
-
     <div className='App'>
       <div className='App-header'>
-        <h2>Patient Board Viz</h2>
+        <h2>Infected Board Viz</h2>
         <img src={logo} className='App-logo' alt='logo' />
       </div>
       <div className='App-todos'>
@@ -82,26 +85,46 @@ function selectSlide()
           </span>
         </h4>
         </Col>
-
       </Row>
 
       <Row>
-        <Col xs="3"></Col>
-        <Col xs="auto"><div className="App">
+        <Col xs="3">
+
+        </Col>
+        <Col xs="auto">
+        <div className="App">
 
         <button className="Slide-Button" onClick={selectSlide}>
           CHART
         </button>
 
-        <XYPlot height={300} width={300}>
-          <LineSeries data={useSelector( state => state.slideReducer.data )} />
-        </XYPlot>
-      </div></Col>
+
+      </div>
+      </Col>
         <Col xs="3">  </Col>
       </Row>
       <Row>
-        <Col xs="6"></Col>
-        <Col xs="6"></Col>
+        <Col xs="6">
+
+        Rimini
+
+        <XYPlot xType="time" height={300} width={300}>
+        <HorizontalGridLines />
+          <LineSeries data={useSelector( state => state.slideReducer.dataRN )} />
+          <XAxis />
+          <YAxis />
+        </XYPlot>
+
+        </Col>
+        <Col xs="6">
+        Bergamo
+
+        <XYPlot xType="time" height={300} width={300}>
+        <HorizontalGridLines />
+          <LineSeries data={useSelector( state => state.slideReducer.dataBG )} />
+          <XAxis />
+          <YAxis />
+        </XYPlot></Col>
       </Row>
       <Row>
         <Col xs="6" sm="4"></Col>
@@ -109,11 +132,11 @@ function selectSlide()
         <Col sm="4"></Col>
       </Row>
       <Row>
-        <Col sm={{ size: 6, order: 2, offset: 1 }}> <h4>Slides List</h4> </Col>
+        <Col sm={{ size: 6, order: 2, offset: 1 }}> <h4> Number of infected </h4> </Col>
       </Row>
       <Row>
         <Col sm="12" md={{ size: 6, offset: 3 }}>
-        <Slides /> </Col>
+        < Patients /> </Col>
       </Row>
       <Row>
         <Col sm={{ size: 'auto', offset: 1 }}><SearchComponent /></Col>

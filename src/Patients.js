@@ -1,15 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useFirebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
-import SlideItem from './SlideItem'
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import PatientItem from './PatientItem'
 
 const slidesQuery =  {
   path: 'slides',
   queryParams: ['limitToLast=10']
 }
 
-function Slides() {
+function Patients() {
 
   // Attach slides listener
   useFirebaseConnect(() => [
@@ -41,19 +40,15 @@ function Slides() {
 
   return slides.reverse().map(({ value: slide, key }, ind) => (
      <React.Fragment>
-     <div className="pagination-wrapper">
 
-         <Pagination aria-label="Page navigation example">
-    <SlideItem
+    < PatientItem
       key={`${key}-${ind}`}
       id={key}
       {...slide}
     />
-    </Pagination>
-
-       </div>
+        
     </React.Fragment>
   ))
 }
 
-export default Slides
+export default Patients

@@ -5,7 +5,7 @@ import { useFirebase } from 'react-redux-firebase'
 import './Slide.css'
 import { useDispatch } from "react-redux";
 
-function SlideItem({ id }) {
+function PatientItem({ id }) {
 
   const slide = useSelector(state => state.firebase.data.slides[id])
   const firebase = useFirebase()
@@ -43,18 +43,21 @@ function SlideItem({ id }) {
       />
 
       {slide.text || slide.name}
+
       <button className="Slide-Button" onClick={deleteSlide}>
         Delete
       </button>
+
       <button className="Slide-Button" onClick={selectSlide}>
         Select
       </button>
+
     </li>
   )
 }
 
-SlideItem.propTypes = {
+PatientItem.propTypes = {
   id: PropTypes.string.isRequired
 }
 
-export default SlideItem
+export default PatientItem

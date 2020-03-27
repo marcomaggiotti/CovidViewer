@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useFirebase } from 'react-redux-firebase'
 
-function NewSlide() {
+const NewSlide = () => {
   const [inputVal, changeInput, simptoms, preSickness] = useState('')
   const firebase = useFirebase()
 

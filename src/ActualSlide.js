@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {useFirebaseConnect, isLoaded } from 'react-redux-firebase'
-import SlideItem from './SlideItem'
-import { useFirebase } from 'react-redux-firebase'
 
 import { useDispatch } from "react-redux";
 import { Button } from 'reactstrap';
@@ -14,10 +12,6 @@ const slidesQuery =  {
 }
 
 function ActualSlide({ id }) {
-
-  const firebase = useFirebase()
-
-  //const { todoId } = useParams()
 
   const actualSlide = useSelector(state => state.slideReducer.slide[0].value)
 
